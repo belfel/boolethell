@@ -1,0 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ItemManager : MonoBehaviour
+{
+    [SerializeField] List<GameObject> pistolPrefabs;
+    [SerializeField] List<GameObject> smgPrefabs;
+    [SerializeField] List<GameObject> shotgunPrefabs;
+    [SerializeField] List<GameObject> lifestonePrefabs;
+
+    private void Awake()
+    {
+        
+    }
+
+    public GameObject GetItemPrefab(UnlockManager.EItem item, Rarity.ERarity rarity)
+    {
+        GameObject prefab = null;
+
+        switch (item) 
+        {
+            case UnlockManager.EItem.pistol:
+                prefab = pistolPrefabs[(int)rarity - 1];
+                break;
+            case UnlockManager.EItem.smg:
+                prefab = smgPrefabs[(int)rarity - 1];
+                break;
+            case UnlockManager.EItem.shotgun:
+                prefab = shotgunPrefabs[(int)rarity - 1];
+                break;
+            case UnlockManager.EItem.lifestone:
+                prefab = lifestonePrefabs[(int)rarity - 1];
+                break;
+        }
+
+        return prefab;
+    }
+}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9bb4734889e414baba505c6de17084, type: 3}
+  m_Name: Boss1LootTable
+  m_EditorClassIdentifier: 
+  dropList:
+  - {fileID: 11400000, guid: 2c34a51b05441d14dbd2c66341bbbc45, type: 2}
+  - {fileID: 11400000, guid: 8646ac35efd766542bddc447975adcc5, type: 2}
+  - {fileID: 11400000, guid: 9eb7782b422d59a4797fc4c07de849cd, type: 2}
+  - {fileID: 11400000, guid: 05a4422729733d14a8775099e681d686, type: 2}
+  - {fileID: 11400000, guid: 4d384ab321d14cd4baf14d9a18dfce54, type: 2}
+  - {fileID: 11400000, guid: 6ab282a53c00d5947bb8bf7c48a8d339, type: 2}
+  - {fileID: 11400000, guid: bbbd858783b68a340b2172da14be21b6, type: 2}
