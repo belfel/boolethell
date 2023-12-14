@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIStageSelectMenu : MonoBehaviour
@@ -25,7 +24,8 @@ public class UIStageSelectMenu : MonoBehaviour
 
     [SerializeField] private Button boss;
     [SerializeField] private Button boss1;
-    [SerializeField] private Scene boss1Scene;
+    [SerializeField] private Button boss2;
+    [SerializeField] private Button boss3;
 
     [SerializeField] private Button back;
     [SerializeField] private Button start;
@@ -115,7 +115,7 @@ public class UIStageSelectMenu : MonoBehaviour
         weaponIconImage.preserveAspect = true;
 
         // Set slot border color
-        weaponSSButton.SetBorderColor(buttonSSButton.GetBorderColor());
+        weaponSSButton.SetBorderAndBackgroundColor(buttonSSButton.GetBorderColor());
 
         // Set slot name and description
         weaponSSButton.SetTitleText(buttonSSButton.GetTitle());
@@ -161,7 +161,7 @@ public class UIStageSelectMenu : MonoBehaviour
         accessoryIconImage.preserveAspect = true;
 
         // Set slot border color
-        accessorySSButton.SetBorderColor(buttonSSButton.GetBorderColor());
+        accessorySSButton.SetBorderAndBackgroundColor(buttonSSButton.GetBorderColor());
 
         // Set slot name and description
         accessorySSButton.SetTitleText(buttonSSButton.GetTitle());
@@ -186,9 +186,18 @@ public class UIStageSelectMenu : MonoBehaviour
         accessorySelect.SetActive(false);
     }
 
-    private void OnBossSelect(Type type)
+    private void OnBossSelect(Type type, Button button)
     {
         stageSelectData.boss = type;
+
+        StageSelectButton buttonSSButton = button.GetComponent<StageSelectButton>();
+        if (!buttonSSButton) { Debug.LogError("Button " + button.gameObject.name + " missing StageSelectButton script"); }
+
+        StageSelectButton bossSSButton = boss.GetComponent<StageSelectButton>();
+        Image bossIconImage = bossSSButton.GetIconImage();
+        bossIconImage.sprite = buttonSSButton.GetIconSprite();
+        bossIconImage.color = Color.white;
+        bossIconImage.preserveAspect = true;
 
         // Close selection menu
         bossSelect.SetActive(false);
@@ -233,16 +242,18 @@ public class UIStageSelectMenu : MonoBehaviour
 
         lifestone.onClick.AddListener(delegate { OnAccessorySelect(typeof(LifeStone), lifestone); });
 
-        boss1.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1)); });
+        boss1.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
+        boss2.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
+        boss3.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
     }
 
     private void SetBordersColors()
     {
-        pistol.GetComponent<StageSelectButton>().SetBorderColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Pistol))));
-        smg.GetComponent<StageSelectButton>().SetBorderColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(SMG))));
-        shotgun.GetComponent<StageSelectButton>().SetBorderColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Shotgun))));
+        pistol.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Pistol))));
+        smg.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(SMG))));
+        shotgun.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Shotgun))));
 
-        lifestone.GetComponent<StageSelectButton>().SetBorderColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(LifeStone))));
+        lifestone.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(LifeStone))));
     }
 
     private Button GetLastUsedAccessoryButton()

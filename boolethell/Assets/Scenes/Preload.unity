@@ -1040,10 +1040,10 @@ MonoBehaviour:
   rewardsScreenListeners: {fileID: 1173990713}
   gameplayListeners: {fileID: 1939768141}
   placeholderSprite: {fileID: -6674868978544099146, guid: 6ec69b32016e2fc4a9ca4cc10a59f650, type: 3}
-  pistolSprite: {fileID: 7169774974588749045, guid: f729f1d27efeaea4c9aa9a1af2ded7f9, type: 3}
+  pistolSprite: {fileID: 6740024153214041682, guid: ac739563c852c7244a402d58360baa9b, type: 3}
   smgSprite: {fileID: 0}
   shotgunSprite: {fileID: 0}
-  lifestoneSprite: {fileID: -8419194227469151887, guid: 200370c4d32ef5f4cbc15bd36d0def29, type: 3}
+  lifestoneSprite: {fileID: -6527297431165372332, guid: a307833f8bf8eb14f94580c2270ffc49, type: 3}
   gameplayPaused: {fileID: 11400000, guid: 8206f3045b8a3364eaadd034a8e4ce25, type: 2}
   gameplayUnpaused: {fileID: 11400000, guid: 7faaf5cc937197f41a1003980bca68ce, type: 2}
 --- !u!4 &1361311767748563616

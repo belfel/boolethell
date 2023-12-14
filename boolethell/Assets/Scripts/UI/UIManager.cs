@@ -258,7 +258,12 @@ public class UIManager : MonoBehaviour
 
         if (bossType == typeof(Boss1))
         {
-            SceneManager.LoadScene("Dev");
+            SceneManager.LoadScene("Boss1");
+        }
+
+        if (bossType == typeof(Boss2))
+        {
+            SceneManager.LoadScene("Boss2");
         }
     }
 

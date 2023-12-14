@@ -30,19 +30,6 @@ public class UIRewards : MonoBehaviour
         ShowRewards();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            foreach (RewardIcon rewardIcon in rewardIcons)
-                Destroy(rewardIcon.gameObject);
-            rewardIcons.Clear();
-            ShowRewards();
-        }
-    }
-
-    // This function instantiates item reward icons starting from the middle outwards.
-    // Handles both even and odd cases. 
     public void ShowRewards()
     {
         int row = 0;

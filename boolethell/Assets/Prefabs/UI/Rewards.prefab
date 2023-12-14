@@ -296,7 +296,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -366,7 +366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 362}
+  m_AnchoredPosition: {x: 0, y: 367}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3110099596555296939
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -836,7 +836,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 33
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -885,7 +885,6 @@ GameObject:
   - component: {fileID: 452318689840008391}
   - component: {fileID: 4021068491396973713}
   - component: {fileID: 1692967071749519901}
-  - component: {fileID: 5121614720657930051}
   m_Layer: 5
   m_Name: Rewards
   m_TagString: Untagged
@@ -1002,34 +1001,6 @@ MonoBehaviour:
   onRepeat: {fileID: 11400000, guid: 861a2112c2b87c74aa218d89c0955dbb, type: 2}
   onChangeLoadout: {fileID: 11400000, guid: 70eac4b98b2a6174fa8ada3ce862dbc6, type: 2}
   pistolRewardIconPrefab: {fileID: 1300782367236084749, guid: 7606ddf0fd5ef5b45bbc85b7215a0de0, type: 3}
---- !u!114 &5121614720657930051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7016073577878372115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5994f8222a34c17429961cba1d32dced, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 6be8e697b256e8044a287aa992c54aaf, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1692967071749519901}
-        m_TargetAssemblyTypeName: UIRewards, Assembly-CSharp
-        m_MethodName: ShowRewards
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &7326055347156786476
 GameObject:
   m_ObjectHideFlags: 0

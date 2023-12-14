@@ -23,6 +23,7 @@ public class Boss1 : Enemy
     [SerializeField] private float actionSpeed = 1f;
     [SerializeField] private float gunTurnSpeed = 1f;
     [SerializeField] private float speed = 1f;
+    [SerializeField] private float strafeMaximumXPos = 16f;
 
     private bool isMoving = false;
     private bool strafeBlocked = false;
@@ -163,7 +164,7 @@ public class Boss1 : Enemy
     private IEnumerator MoveToSideRoutine(bool moveToRightSide, bool strafing = false)
     {
         var rand = new System.Random();
-        float randomX = (float)rand.NextDouble() * 4f + 13.5f;   // <13.5; 17.5)
+        float randomX = (float)rand.NextDouble() + strafeMaximumXPos;
         float direction = 1;
         float moveSpeed = speed;
         if (strafing)

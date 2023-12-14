@@ -1,15 +1,15 @@
 fileFormatVersion: 2
-guid: 200370c4d32ef5f4cbc15bd36d0def29
+guid: a0f289758754a044ba3476129bbca186
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8419194227469151887
-    second: Lifstoone_0
+      213: 865320926830367801
+    second: circleOutline_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -38,7 +38,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 1
-    aniso: 1
+    aniso: 2
     mipBias: 0
     wrapU: 1
     wrapV: 1
@@ -98,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Lifstoone_0
+      name: circleOutline_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 18
-        width: 219
-        height: 201
+        x: 152
+        y: 152
+        width: 720
+        height: 720
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1719ea8f473092b80800000000000000
-      internalID: -8419194227469151887
+      spriteID: 9349f6c5ccc320c00800000000000000
+      internalID: 865320926830367801
       vertices: []
       indices: 
       edges: []
@@ -128,7 +128,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      circleOutline_0: 865320926830367801
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

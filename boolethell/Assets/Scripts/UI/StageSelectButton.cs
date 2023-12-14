@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class StageSelectButton : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
-    [SerializeField] private Image borderImage;   
+    [SerializeField] private Image borderImage;
+    [SerializeField] private Image backgroundImage;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
 
@@ -17,15 +18,9 @@ public class StageSelectButton : MonoBehaviour
     [SerializeField] private string description;
 
 
-    private void Start()
-    {
-        if (iconImage != null)
-            iconImage.sprite = iconSprite;
-    }
-
     public Sprite GetIconSprite()
     {
-        return iconSprite;
+        return iconImage.sprite;
     }
 
     public Image GetIconImage()
@@ -33,9 +28,16 @@ public class StageSelectButton : MonoBehaviour
         return iconImage;
     }
 
-    public void SetBorderColor(Color color)
+    public void SetBorderAndBackgroundColor(Color color)
     {
-        borderImage.color = color;
+        if (color == Color.black)
+            iconImage.color = color;
+        else iconImage.color = Color.white;
+
+        if (borderImage)
+            borderImage.color = color;
+        if (backgroundImage)
+            backgroundImage.color = new Color(color.r, color.g, color.b, 0.15f);
     }
 
     public Color GetBorderColor()
