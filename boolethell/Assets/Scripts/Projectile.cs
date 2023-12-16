@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected bool ignoreCollisions = false;
     [SerializeField] protected bool ignorePlayerWhenDashing = false;
     [SerializeField] protected bool bounceOffWalls = false;
-    [SerializeField] protected BoolVariable isPlayerInvincible;
+    [SerializeField] protected BoolVariable isPlayerDashing;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
 
         if (player)
         {
-            if (ignorePlayerWhenDashing && isPlayerInvincible.Value)
+            if (ignorePlayerWhenDashing && isPlayerDashing.Value)
             {
                 return;
             }

@@ -37,7 +37,7 @@ public class StageSelectButton : MonoBehaviour
         if (borderImage)
             borderImage.color = color;
         if (backgroundImage)
-            backgroundImage.color = new Color(color.r, color.g, color.b, 0.15f);
+            backgroundImage.color = new Color(color.r, color.g, color.b, 0.5f);
     }
 
     public Color GetBorderColor()

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class UIStageSelectMenu : MonoBehaviour
 {
+    [SerializeField] private ItemManager itemManager;
+
     [SerializeField] private GameObject weaponSelect;
     [SerializeField] private GameObject accessorySelect;
     [SerializeField] private GameObject bossSelect;
@@ -62,9 +64,7 @@ public class UIStageSelectMenu : MonoBehaviour
     private void ClearStageSelectData()
     {
         stageSelectData.weapon = null;
-        stageSelectData.accessory1 = null;
-        stageSelectData.accessory2 = null;
-        stageSelectData.accessory3 = null;
+        stageSelectData.accessories.Clear();
         stageSelectData.boss = null;
     }
 
@@ -121,7 +121,7 @@ public class UIStageSelectMenu : MonoBehaviour
         weaponSSButton.SetTitleText(buttonSSButton.GetTitle());
         weaponSSButton.SetDescriptionText(buttonSSButton.GetDescription());
 
-        stageSelectData.weapon = new Tuple<Type, Rarity.ERarity>(type, (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
+        stageSelectData.weapon = itemManager.GetItemPrefab(UnlockManager.instance.GetEItemFromType(type), (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
 
         weaponSelect.SetActive(false);
     }
@@ -167,20 +167,15 @@ public class UIStageSelectMenu : MonoBehaviour
         accessorySSButton.SetTitleText(buttonSSButton.GetTitle());
         accessorySSButton.SetDescriptionText(buttonSSButton.GetDescription());
 
-        switch (accessorySlot)
-        {
-            default:
-            case 1:
-                stageSelectData.accessory1 = new Tuple<Type, Rarity.ERarity>(type, (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
-                break;
-            case 2:
-                stageSelectData.accessory2 = new Tuple<Type, Rarity.ERarity>(type, (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
-                break;
-            case 3:
-                stageSelectData.accessory3 = new Tuple<Type, Rarity.ERarity>(type, (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
-                break;
-        }
+        // Add accessory data to stageSelectData
+        GameObject accPrefab = itemManager.GetItemPrefab(UnlockManager.instance.GetEItemFromType(type), (Rarity.ERarity)UnlockManager.instance.GetRarity(type));
+        Tuple<int, GameObject> accSlot = new Tuple<int, GameObject>(accessorySlot, accPrefab);
+
+        foreach (Tuple<int, GameObject> slot in stageSelectData.accessories)
+            if (slot.Item1 == accessorySlot)
+                stageSelectData.accessories.Remove(slot);
         
+        stageSelectData.accessories.Add(accSlot);
 
         // Close selection menu
         accessorySelect.SetActive(false);
@@ -198,6 +193,10 @@ public class UIStageSelectMenu : MonoBehaviour
         bossIconImage.sprite = buttonSSButton.GetIconSprite();
         bossIconImage.color = Color.white;
         bossIconImage.preserveAspect = true;
+
+        // Set boss name and description
+        bossSSButton.SetTitleText(buttonSSButton.GetTitle());
+        bossSSButton.SetDescriptionText(buttonSSButton.GetDescription());
 
         // Close selection menu
         bossSelect.SetActive(false);

@@ -17,6 +17,7 @@ public class Boss1 : Enemy
 
 
     [Header("General")]
+    [SerializeField] private Vector3Variable playerPosition;
     [SerializeField] private bool inPhase2 = false;
     [SerializeField] private float globalCooldown = 2f;
     [SerializeField] private float globalCooldownTimer = 0f;
@@ -146,8 +147,7 @@ public class Boss1 : Enemy
 
     private void UpdatePlayerDirection()
     {
-        Vector3 playerPos = GameManager.instance.GetPlayerPosition();
-        playerDirection = (playerPos - gun.transform.position).normalized;
+        playerDirection = (playerPosition.Value - gun.transform.position).normalized;
     }
 
     private void RotateBarrelTowardsPlayer()

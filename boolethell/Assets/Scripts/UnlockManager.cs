@@ -19,17 +19,10 @@ public class UnlockManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.instance.bDevMode)
-        {
-            unlocks.Add(typeof(Pistol), 1);
-            unlocks.Add(typeof(Shotgun), 3);
-            unlocks.Add(typeof(SMG), 4);
-            unlocks.Add(typeof(LifeStone), 0);
-        }
-        else
-        {
-            unlocks.Add(typeof(Pistol), 1);
-        }
+        unlocks.Add(typeof(Pistol), 1);
+        unlocks.Add(typeof(Shotgun), 0);
+        unlocks.Add(typeof(SMG), 0);
+        unlocks.Add(typeof(LifeStone), 0);
     }
 
     public short GetRarity(Type type)

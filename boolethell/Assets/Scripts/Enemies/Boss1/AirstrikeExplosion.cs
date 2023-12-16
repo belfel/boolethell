@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class AirstrikeExplosion : MonoBehaviour
 {
-    private SpriteRenderer sprite;
+   
     private Collider2D hitbox;
+    private GameObject warningZoneGO;
+
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private GameObject warningZone; 
 
     [SerializeField] private float fallDuration = 5f;
     [SerializeField] private float startScale = 6f;
@@ -15,13 +19,13 @@ public class AirstrikeExplosion : MonoBehaviour
 
     private void Awake()
     {
-        sprite = gameObject.GetComponent<SpriteRenderer>();
         hitbox = gameObject.GetComponent<Collider2D>();
     }
 
     void Start()
     {
-        sprite.color = new Color(0, 0, 0, 0);
+        warningZoneGO = Instantiate(warningZone, transform.position, Quaternion.identity);
+        warningZoneGO.transform.localScale = new Vector3(startScale, startScale, 1f);
         StartCoroutine(FallRoutine());
     }
 
@@ -54,30 +58,34 @@ public class AirstrikeExplosion : MonoBehaviour
 
     private IEnumerator FallRoutine()
     {
-        float alpha = 0;
         float scale = startScale;
         float timePassed = 0f;
 
         for (; ;)
         {
+            timePassed += Time.deltaTime;
+
             gameObject.transform.localScale = new Vector3(scale, scale, 1f);
-            sprite.color = new Color(0, 0, 0, alpha);
             scale = (1 - (timePassed / fallDuration)) * (startScale - endScale) + 1f;
-            alpha = timePassed / fallDuration;
-            if (alpha > 1f)
+            if (timePassed > fallDuration)
                 break;
-            else timePassed += Time.deltaTime;
 
             yield return null;
         }
 
         gameObject.transform.localScale = new Vector3(startScale, startScale, 1f);
-        sprite.color = new Color(1, 0, 0, alpha);
+        sprite.transform.localScale = new Vector3(1f, 1f, 1f);
+        sprite.color = new Color(1, 0, 0, 1);
         yield return new WaitForFixedUpdate();
         DealDamage();
 
         yield return new WaitForSeconds(0.2f);
 
         Destroy(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Destroy(warningZoneGO);
     }
 }

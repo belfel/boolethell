@@ -11,14 +11,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoolList controlsDisabled;
     [SerializeField] private BoolList playerInvincible;
     [SerializeField] private BoolVariable dashInvincibility;
+    [SerializeField] private BoolVariable isDashing;
  
     private Vector3 dashDirection = Vector3.zero;
-    private bool isDashing = false;
     private bool canDash = true;
     [SerializeField] private FloatVariable dashCooldown;
     [SerializeField] private FloatVariable dashDuration;
     [SerializeField] private FloatVariable dashDistance;
     [SerializeField] private FloatVariable dashInvincibilityDuration;
+
+    private void Awake()
+    {
+        isDashing.SetValue(false);
+    }
 
     void Update()
     {
@@ -37,7 +42,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         Move();
-        if (isDashing)
+        if (isDashing.Value)
             Dash();
     }
 
@@ -72,7 +77,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashProcedure()
     {
         float timer = 0f;
-        isDashing = true;
+        isDashing.SetValue(true);
         canDash = false;
         playerInvincible.AddVariable(dashInvincibility);
 
@@ -81,7 +86,9 @@ public class PlayerController : MonoBehaviour
             timer += Time.deltaTime;
 
             if (timer >= dashDuration.Value)
-                isDashing = false;
+            {
+                isDashing.SetValue(false);
+            }
 
             if (timer >= dashInvincibilityDuration.Value)
                 playerInvincible.RemoveVariable(dashInvincibility);

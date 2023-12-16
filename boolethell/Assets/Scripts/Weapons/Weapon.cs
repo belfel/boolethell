@@ -17,6 +17,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected float projectileLifetime = 10f;
 
     [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected Transform projectileSpawn;
 
     public BoolList controlsDisabled;
     public StringVariable ammoText;
@@ -30,7 +31,8 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        if (!projectileSpawn)
+            projectileSpawn = gameObject.transform;
     }
 
     protected virtual void Start()
@@ -50,7 +52,7 @@ public abstract class Weapon : MonoBehaviour
     public virtual void Shoot()
     {
         currentAmmo -= 1;
-        GameObject newProjectile = Instantiate(projectilePrefab, gameObject.transform.position, gameObject.transform.rotation);
+        GameObject newProjectile = Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
         GunProjectile proj = newProjectile.GetComponent<GunProjectile>();
         proj.SetStats(pierce, bounce, damage, projectileSpeed, projectileLifetime);
         onShoot.Raise();

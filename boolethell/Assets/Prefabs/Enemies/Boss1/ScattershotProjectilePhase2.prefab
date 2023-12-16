@@ -203,7 +203,7 @@ MonoBehaviour:
   ignoreCollisions: 0
   ignorePlayerWhenDashing: 1
   bounceOffWalls: 0
-  isPlayerInvincible: {fileID: 11400000, guid: d71c3683e57d78e468a2bdc78ffcb7cf, type: 2}
+  isPlayerDashing: {fileID: 11400000, guid: e0371107d61d4b04ca0fce683543a92a, type: 2}
   scatterPrefab: {fileID: 3686553885732480299, guid: e32bb45d6a040ad48964ec4abb3104bc, type: 3}
   numberOfScatters: 16
   inaccuracyMultiplier: 15

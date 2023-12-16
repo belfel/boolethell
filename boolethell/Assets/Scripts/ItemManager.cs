@@ -9,10 +9,6 @@ public class ItemManager : MonoBehaviour
     [SerializeField] List<GameObject> shotgunPrefabs;
     [SerializeField] List<GameObject> lifestonePrefabs;
 
-    private void Awake()
-    {
-        
-    }
 
     public GameObject GetItemPrefab(UnlockManager.EItem item, Rarity.ERarity rarity)
     {

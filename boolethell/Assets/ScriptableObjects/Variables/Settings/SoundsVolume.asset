@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aad8f31bc88a344ea3dc1b7225d4324, type: 3}
-  m_Name: PlayerDashInvincibility
+  m_Script: {fileID: 11500000, guid: 8feeab9d374156040a6198c184709cee, type: 3}
+  m_Name: SoundsVolume
   m_EditorClassIdentifier: 
-  DeveloperDescription: 'Should the player be
-
-    invincible while dashing'
   Value: 0
