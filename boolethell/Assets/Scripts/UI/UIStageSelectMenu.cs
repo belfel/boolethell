@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 using UnityEngine.UI;
 
 public class UIStageSelectMenu : MonoBehaviour
@@ -13,18 +14,12 @@ public class UIStageSelectMenu : MonoBehaviour
     [SerializeField] private GameObject accessorySelect;
     [SerializeField] private GameObject bossSelect;
 
-    [SerializeField] private Button weapon;
-    [SerializeField] private Button accessory1;
-    [SerializeField] private Button accessory2;
-    [SerializeField] private Button accessory3;
+    [SerializeField] private Button weaponSlot;
+    [SerializeField] private List<Button> accessorySlots = new List<Button>();
+    [SerializeField] private List<StageSelectItem> weapons = new List<StageSelectItem>();
+    [SerializeField] private List<StageSelectItem> accessories = new List<StageSelectItem>();
 
-    [SerializeField] private Button pistol;
-    [SerializeField] private Button smg;
-    [SerializeField] private Button shotgun;
-
-    [SerializeField] private Button lifestone;
-
-    [SerializeField] private Button boss;
+    [SerializeField] private Button bossSlot;
     [SerializeField] private Button boss1;
     [SerializeField] private Button boss2;
     [SerializeField] private Button boss3;
@@ -32,22 +27,29 @@ public class UIStageSelectMenu : MonoBehaviour
     [SerializeField] private Button back;
     [SerializeField] private Button start;
 
-    [SerializeField] private Sprite pistolSprite;
+    [SerializeField] private Button removeAccessory;
 
-    [SerializeField] private List<Tuple<Button, short>> lockedAccessoryButtons;
+    [SerializeField] private List<Tuple<Button, int>> lockedAccessoryButtons = new List<Tuple<Button, int>>();
 
     public StageSelectData stageSelectData;
 
     public GameEvent onBack;
     public GameEvent onStart;
 
-    private short accessorySlot;
+    private int accessorySlot;
+
+
+    private void Awake()
+    {
+        SetSelectMenusActive();
+    }
 
     void Start()
     {
-        lockedAccessoryButtons = new List<Tuple<Button, short>>();
         ClearStageSelectData();
         InitializeButtons();
+
+        SetSelectMenusInactive();
     }
 
     private void Update()
@@ -59,6 +61,20 @@ public class UIStageSelectMenu : MonoBehaviour
             bossSelect.SetActive(false);
             weaponSelect.SetActive(false);
         }
+    }
+
+    private void SetSelectMenusActive()
+    {
+        weaponSelect.SetActive(true);
+        accessorySelect.SetActive(true);
+        bossSelect.SetActive(true);
+    }
+
+    private void SetSelectMenusInactive()
+    {
+        weaponSelect.SetActive(false);
+        accessorySelect.SetActive(false);
+        bossSelect.SetActive(false);
     }
 
     private void ClearStageSelectData()
@@ -77,12 +93,11 @@ public class UIStageSelectMenu : MonoBehaviour
         weaponSelect.SetActive(true);
     }
 
-    private void OpenAccessorySelect(short slot)
+    private void OpenAccessorySelect(int slot)
     {
         // Close other selection menus
         bossSelect.SetActive(false);
         weaponSelect.SetActive(false);
-
         accessorySlot = slot;
         accessorySelect.SetActive(true);
     }
@@ -108,7 +123,7 @@ public class UIStageSelectMenu : MonoBehaviour
         if (!buttonSSButton) { Debug.LogError("Button " + button.gameObject.name + " missing StageSelectButton script"); }
 
         // Set slot icon
-        StageSelectButton weaponSSButton = weapon.GetComponent<StageSelectButton>();
+        StageSelectButton weaponSSButton = weaponSlot.GetComponent<StageSelectButton>();
         Image weaponIconImage = weaponSSButton.GetIconImage();
         weaponIconImage.sprite = buttonSSButton.GetIconSprite();
         weaponIconImage.color = Color.white;
@@ -134,8 +149,8 @@ public class UIStageSelectMenu : MonoBehaviour
             return;
         }
 
-        // If this slot had another item unlock that item's button
-        foreach (Tuple<Button, short> tuple in lockedAccessoryButtons)
+        // If this slot had another item then unlock that item's button
+        foreach (Tuple<Button, int> tuple in lockedAccessoryButtons)
             if (tuple.Item2 == accessorySlot)
             {
                 tuple.Item1.interactable = true;
@@ -145,7 +160,7 @@ public class UIStageSelectMenu : MonoBehaviour
 
         // Lock button and link it to selected accessory slot
         button.interactable = false;
-        lockedAccessoryButtons.Add(new Tuple<Button, short>(button, accessorySlot));
+        lockedAccessoryButtons.Add(new Tuple<Button, int>(button, accessorySlot));
 
         StageSelectButton buttonSSButton = button.GetComponent<StageSelectButton>();
         if (!buttonSSButton) { Debug.LogError("Button " + button.gameObject.name + " missing StageSelectButton script"); }
@@ -173,11 +188,34 @@ public class UIStageSelectMenu : MonoBehaviour
 
         foreach (Tuple<int, GameObject> slot in stageSelectData.accessories)
             if (slot.Item1 == accessorySlot)
+            {
                 stageSelectData.accessories.Remove(slot);
-        
+                break;
+            }
+
         stageSelectData.accessories.Add(accSlot);
 
         // Close selection menu
+        accessorySelect.SetActive(false);
+    }
+
+    private void ClearAccessorySlot()
+    {
+        StageSelectButton selectedSlot = GetLastUsedAccessoryButton().gameObject.GetComponent<StageSelectButton>();
+        selectedSlot.SetTitleText("Select accessory");
+        selectedSlot.SetDescriptionText("");
+        selectedSlot.SetBorderAndBackgroundColor(Color.white);
+        selectedSlot.GetIconImage().sprite = null;
+        selectedSlot.GetIconImage().color = new Color(1f, 1f, 1f, 0f);
+
+        foreach (Tuple<Button, int> tuple in lockedAccessoryButtons)
+            if (tuple.Item2 == accessorySlot)
+            {
+                tuple.Item1.interactable = true;
+                lockedAccessoryButtons.Remove(tuple);
+                break;
+            }
+
         accessorySelect.SetActive(false);
     }
 
@@ -188,7 +226,7 @@ public class UIStageSelectMenu : MonoBehaviour
         StageSelectButton buttonSSButton = button.GetComponent<StageSelectButton>();
         if (!buttonSSButton) { Debug.LogError("Button " + button.gameObject.name + " missing StageSelectButton script"); }
 
-        StageSelectButton bossSSButton = boss.GetComponent<StageSelectButton>();
+        StageSelectButton bossSSButton = bossSlot.GetComponent<StageSelectButton>();
         Image bossIconImage = bossSSButton.GetIconImage();
         bossIconImage.sprite = buttonSSButton.GetIconSprite();
         bossIconImage.color = Color.white;
@@ -226,43 +264,52 @@ public class UIStageSelectMenu : MonoBehaviour
 
     private void AddListenersToButtons()
     {
-        start.onClick.AddListener(delegate { OnStart(); });
+        start.onClick.AddListener(() => { OnStart(); });
         back.onClick.AddListener(() => { OnBack(); });
 
-        weapon.onClick.AddListener(delegate { OpenWeaponSelect(); });
-        accessory1.onClick.AddListener(delegate { OpenAccessorySelect(1); });
-        accessory2.onClick.AddListener(delegate { OpenAccessorySelect(2); });
-        accessory3.onClick.AddListener(delegate { OpenAccessorySelect(3); });
-        boss.onClick.AddListener(delegate { OpenBossSelect(); });
+        weaponSlot.onClick.AddListener(() => { OpenWeaponSelect(); });
+        for (int i = 0; i < accessorySlots.Count; i++)
+        {
+            int _i = i;
+            accessorySlots[i].onClick.AddListener(() => { OpenAccessorySelect(_i); });
+        }
+        bossSlot.onClick.AddListener(() => { OpenBossSelect(); });
 
-        pistol.onClick.AddListener(delegate { OnWeaponSelect(typeof(Pistol), pistol); });
-        smg.onClick.AddListener(delegate { OnWeaponSelect(typeof(SMG), smg); });
-        shotgun.onClick.AddListener(delegate { OnWeaponSelect(typeof(Shotgun), shotgun); });
+        foreach (StageSelectItem weapon in weapons)
+        {
+            Button button = weapon.GetButton();
+            button.onClick.AddListener(() => { OnWeaponSelect(weapon.GetItemType(), button); });
+        }
 
-        lifestone.onClick.AddListener(delegate { OnAccessorySelect(typeof(LifeStone), lifestone); });
+        foreach (StageSelectItem accessory in accessories)
+        {
+            Button button = accessory.GetButton();
+            button.onClick.AddListener(() => { OnAccessorySelect(accessory.GetItemType(), button); });
+        }
+        removeAccessory.onClick.AddListener(() => { ClearAccessorySlot(); });
 
-        boss1.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
-        boss2.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
-        boss3.onClick.AddListener(delegate { OnBossSelect(typeof(Boss1), boss1); });
+        boss1.onClick.AddListener(() => { OnBossSelect(typeof(Boss1), boss1); });
+        boss2.onClick.AddListener(() => { OnBossSelect(typeof(Boss2), boss2); });
+        boss3.onClick.AddListener(() => { OnBossSelect(typeof(Boss1), boss1); });
     }
 
     private void SetBordersColors()
     {
-        pistol.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Pistol))));
-        smg.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(SMG))));
-        shotgun.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(Shotgun))));
+        foreach (StageSelectItem weapon in weapons)
+        {
+            Type type = weapon.GetItemType();
+            weapon.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(type)));
+        }
 
-        lifestone.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(typeof(LifeStone))));
+        foreach (StageSelectItem accessory in accessories)
+        {
+            Type type = accessory.GetItemType();
+            accessory.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(type)));
+        }
     }
 
     private Button GetLastUsedAccessoryButton()
     {
-        Button accessory;
-
-        if (accessorySlot == 1) accessory = accessory1;
-        else if (accessorySlot == 2) accessory = accessory2;
-        else accessory = accessory3;
-
-        return accessory;
+        return accessorySlots[accessorySlot];
     }
 }

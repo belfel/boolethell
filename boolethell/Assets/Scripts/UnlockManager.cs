@@ -22,7 +22,7 @@ public class UnlockManager : MonoBehaviour
         unlocks.Add(typeof(Pistol), 1);
         unlocks.Add(typeof(Shotgun), 0);
         unlocks.Add(typeof(SMG), 0);
-        unlocks.Add(typeof(LifeStone), 0);
+        unlocks.Add(typeof(LifeStone), 1);
     }
 
     public short GetRarity(Type type)

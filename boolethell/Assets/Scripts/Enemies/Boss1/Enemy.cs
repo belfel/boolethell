@@ -22,12 +22,13 @@ public class Enemy : MonoBehaviour
     public virtual void OnHit(float damage)
     {
         hpCurrent.Value -= damage;
-        onHit.Invoke();
+        if (onHit != null)
+            onHit.Invoke();
 
         if (hpCurrent.Value <= 0)
         {
-            onHit.Invoke();
-            onDeath.Invoke();
+            if (onDeath != null)
+                onDeath.Invoke();
             Destroy(gameObject);
         }
     }

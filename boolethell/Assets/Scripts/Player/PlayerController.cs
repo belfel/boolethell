@@ -30,7 +30,8 @@ public class PlayerController : MonoBehaviour
         if (controlsDisabled.IsAnyTrue())
             return;
 
-        RotateTowardsCursor();
+        if (Time.timeScale != 0f)
+            RotateTowardsCursor();
 
         if (canDash && Input.GetKey(KeyCode.LeftShift))
             TryDash();

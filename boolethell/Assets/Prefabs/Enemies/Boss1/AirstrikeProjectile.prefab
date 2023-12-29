@@ -119,7 +119,7 @@ MonoBehaviour:
   ignoreCollisions: 1
   ignorePlayerWhenDashing: 0
   bounceOffWalls: 0
-  isPlayerInvincible: {fileID: 11400000, guid: d71c3683e57d78e468a2bdc78ffcb7cf, type: 2}
+  isPlayerDashing: {fileID: 0}
 --- !u!1 &6055640290957902161
 GameObject:
   m_ObjectHideFlags: 0
@@ -5044,12 +5044,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 865320926830367801, guid: a0f289758754a044ba3476129bbca186, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0f289758754a044ba3476129bbca186, type: 3}
   m_Color: {r: 1, g: 0.7001895, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

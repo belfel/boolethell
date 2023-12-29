@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4081208015622561951}
   - component: {fileID: 5286064322875353134}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6855065284123854124}
   - component: {fileID: 8475809723237132878}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,12 +157,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 865320926830367801, guid: a0f289758754a044ba3476129bbca186, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0f289758754a044ba3476129bbca186, type: 3}
   m_Color: {r: 0.0049762726, g: 1, b: 0, a: 0.9019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10.24, y: 10.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 5403492466899178884}
   - component: {fileID: 2109331741217575467}
   - component: {fileID: 2314351731451682314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1888045250111267614}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 623677150106181634}
   - component: {fileID: 8010356179188659924}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ Transform:
   m_GameObject: {fileID: 5313567160090594083}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 2.7, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -454,6 +454,10 @@ PrefabInstance:
     - target: {fileID: 2086758888645133927, guid: 185048332da26ad46a167f6767732065, type: 3}
       propertyPath: m_Name
       value: AmmoText
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086758888645133927, guid: 185048332da26ad46a167f6767732065, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5744552767910065004, guid: 185048332da26ad46a167f6767732065, type: 3}
       propertyPath: m_LocalPosition.x
