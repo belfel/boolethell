@@ -48,6 +48,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: damage
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: rarity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: maxAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: reloadTime
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: attackSpeed
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5191360786370030835, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
+      propertyPath: projectileSpeed
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8902588122762445087, guid: 281f07b54e42ce941baf7e564e313744, type: 3}
       propertyPath: m_Name
       value: Pistol_R

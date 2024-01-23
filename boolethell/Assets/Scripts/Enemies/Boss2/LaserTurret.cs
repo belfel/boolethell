@@ -11,6 +11,7 @@ public class LaserTurret : MonoBehaviour
     [SerializeField] private Vector3Variable targetPos;
     [SerializeField] private LayerMask hitLayers;
     [SerializeField] private LayerMask trackingHitLayers;
+    [SerializeField] private LayerMask playerLayer;
     
     [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private float activationTime = 2f;
@@ -64,7 +65,7 @@ public class LaserTurret : MonoBehaviour
 
         DrawRay(laserStart.position, hit.point);
         GameObject hitGO = hit.rigidbody.gameObject;
-        if (hitGO.layer == LayerMask.NameToLayer("Player"))
+        if (hitGO.layer == playerLayer)
         {
             Player playerComp = hitGO.GetComponent<Player>();
             if (playerComp)

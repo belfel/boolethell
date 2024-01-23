@@ -888,7 +888,7 @@ MonoBehaviour:
   pistolSprite: {fileID: 21300000, guid: c11409e4c8fde724ea094b3e84fd2989, type: 3}
   smgSprite: {fileID: 21300000, guid: 9173baf7bc978e14296521f8d6beda90, type: 3}
   shotgunSprite: {fileID: 21300000, guid: 73230531ee48cb5419868db1d405f6bb, type: 3}
-  lifestoneSprite: {fileID: 21300000, guid: a307833f8bf8eb14f94580c2270ffc49, type: 3}
+  lifestoneSprite: {fileID: -4186533502587462693, guid: f738c5701371af7428fb783ebbd3db7b, type: 3}
   gameplayPaused: {fileID: 11400000, guid: 8206f3045b8a3364eaadd034a8e4ce25, type: 2}
   gameplayUnpaused: {fileID: 11400000, guid: 7faaf5cc937197f41a1003980bca68ce, type: 2}
 --- !u!4 &1361311767748563616

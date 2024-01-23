@@ -240,7 +240,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.46563318
 --- !u!50 &5403492466899178884
 Rigidbody2D:
   serializedVersion: 4
@@ -497,6 +497,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5744552767910065004, guid: 185048332da26ad46a167f6767732065, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7498166568804324438, guid: 185048332da26ad46a167f6767732065, type: 3}
+      propertyPath: m_OffsetZ
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

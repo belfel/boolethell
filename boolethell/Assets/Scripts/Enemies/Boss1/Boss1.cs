@@ -12,6 +12,8 @@ public class Boss1 : Enemy
     [SerializeField] private GameObject machinegunBurstProjectilePrefab;
     [SerializeField] private GameObject airstrikeProjectilePrefab;
     [SerializeField] private GameObject airstrikeExplosionPrefab;
+    [SerializeField] private GameObject slowshotPrefab;
+    [SerializeField] private GameObject hitscanPrefab;
     [SerializeField] GameObject gun;
     [SerializeField] GameObject projectileSpawn;
 
@@ -30,9 +32,10 @@ public class Boss1 : Enemy
     private bool strafeBlocked = false;
     private bool lookAtPlayer = false;
     private Vector3 playerDirection;
-    private EState currentState = EState.Idle;
+    private EState currentState = EState.OnCooldown;
     private GameObject projectilesParent;
     private Coroutine moveInstance;
+    private int lastUsedAttack = -1;
 
     [Header("Scattershot variables")]
     [SerializeField] private Vector3[] scatterTargets;
@@ -59,17 +62,27 @@ public class Boss1 : Enemy
     [SerializeField] private float airstrikeBlockDuration = 15f;
     private bool airstrikeBlocked = false;
 
+    [Header("Slowshot variables")]
+    [SerializeField] private float slowshotAngle = 20f;
+
+    [Header("HitscanShot variables")]
+    [SerializeField] private LineRenderer trackingLaser;
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private float trackingTime = 4f;
+    [SerializeField] private float trackingTimePhase2 = 3f;
+    [SerializeField] private float timeToReact = 0.3f;
+    [SerializeField] private float timeToReactPhase2 = 0.27f;
 
     private enum EState
     {
          Idle, OnCooldown, ExecutingAttack
     }
 
-
     private void Awake()
     {
         hasHealthbar = false;
-        projectilesParent = Instantiate(new GameObject("Boss1 projectiles"));
+        projectilesParent = new GameObject("Boss1 projectiles");
         projectilesParent.transform.position = Vector3.zero;
     }
 
@@ -90,7 +103,6 @@ public class Boss1 : Enemy
             default:
             case EState.Idle:
                 RandomAttack();
-                currentState = EState.ExecutingAttack;
                 break;
             case EState.ExecutingAttack:
                 break;
@@ -99,7 +111,6 @@ public class Boss1 : Enemy
                 if (globalCooldownTimer >= globalCooldown)
                     currentState = EState.Idle;
                 break;
-
         }
     }
 
@@ -108,8 +119,14 @@ public class Boss1 : Enemy
         var rand = new System.Random();
         int r;
         if (airstrikeBlocked)
-            r = rand.Next(3);
-        else r = rand.Next(4);
+            r = rand.Next(5);
+        else r = rand.Next(6);
+
+        if (r == lastUsedAttack)
+            return;
+
+        lastUsedAttack = r;
+        currentState = EState.ExecutingAttack;
 
         switch (r)
         {
@@ -123,6 +140,12 @@ public class Boss1 : Enemy
                 StartCoroutine(SideMachinegunAttackRoutine());
                 break;
             case 3:
+                StartCoroutine(SlowshotAttackRoutine());
+                break;
+            case 4:
+                StartCoroutine(HitscanAttackRoutine());
+                break;
+            case 5:
                 StartCoroutine(AirstrikeAttackRoutine());
                 break;
         }
@@ -143,6 +166,8 @@ public class Boss1 : Enemy
         mgBurstAngle = mgBurstAnglePhase2;
         scattershotPrefab = scattershotPhase2Prefab;
         scatterProjectileCount = scatterProjectileCountPhase2;
+        trackingTime = trackingTimePhase2;
+        timeToReact = timeToReactPhase2;
     }
 
     private void UpdatePlayerDirection()
@@ -197,6 +222,9 @@ public class Boss1 : Enemy
     {
         for (;;)
         {
+            if (moveInstance == null)
+                isMoving = false;
+
             if (!isMoving && !strafeBlocked)
                 moveInstance = StartCoroutine(MoveToSideRoutine(!IsOnRightSide(), true));
 
@@ -312,6 +340,7 @@ public class Boss1 : Enemy
 
     private IEnumerator RotateBarrelTowardsTargetRoutine(Vector3 target)
     {
+        lookAtPlayer = false;
         Vector3 dir = GetDirectionTowardsTarget(target);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         
@@ -338,6 +367,7 @@ public class Boss1 : Enemy
 
     private IEnumerator RotateBarrelTowardsPlayerRoutine(bool stayLocked = false)
     {
+        lookAtPlayer = false;
         Vector3 dir = playerDirection;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
@@ -366,11 +396,104 @@ public class Boss1 : Enemy
 
     private IEnumerator ScatterAttackRoutine()
     {
+        lookAtPlayer = false;
         foreach (Vector3 v in scatterTargets)
         {
             yield return RotateBarrelTowardsTargetRoutine(v);
             ShootScatter(v);
         }
+        OnAttackEnd();
+    }
+
+    private IEnumerator RotateBarrelDegrees(float degrees)
+    {
+        lookAtPlayer = false;
+        float totalTurned = 0f;
+        float increment = 1f;
+        if (degrees < 0f)
+            increment = -1f;
+
+        while (Mathf.Abs(totalTurned) < Mathf.Abs(degrees))
+        {
+            float iterationAngle = gunTurnSpeed * increment * Time.deltaTime * actionSpeed;
+            gun.transform.Rotate(Vector3.forward, iterationAngle);
+
+            totalTurned += iterationAngle;
+            yield return null;
+        }
+    }
+
+    private void DrawWarningLine()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(projectileSpawn.transform.position, playerDirection, 100f, wallLayer);
+        if (!hit)
+            return;
+
+        DrawRay(projectileSpawn.transform.position, hit.point);
+    }
+
+    private void DrawRay(Vector2 startPos, Vector2 endPos)
+    {
+        trackingLaser.SetPosition(0, startPos);
+        trackingLaser.SetPosition(1, endPos);
+    }
+
+    private void ShootHitscanProjectile()
+    {
+        Instantiate(hitscanPrefab, projectileSpawn.transform.position, gun.transform.transform.rotation, projectilesParent.transform);
+
+        //RaycastHit2D hit = Physics2D.Raycast(projectileSpawn.transform.position, playerDirection, 100f, playerLayer);
+        //if (!hit)
+        //    return;
+
+        //Player player = hit.transform.gameObject.GetComponent<Player>();
+        //player.OnHit
+    }
+
+    private IEnumerator HitscanAttackRoutine()
+    {
+        strafeBlocked = true;
+        if (moveInstance != null)
+            StopCoroutine(moveInstance);
+
+        if (!lookAtPlayer)
+            yield return RotateBarrelTowardsPlayerRoutine(true);
+
+        float trackingTimer = 0f;
+        trackingLaser.enabled = true;
+        while (trackingTimer < trackingTime)
+        {
+            DrawWarningLine();
+            trackingTimer += Time.deltaTime;
+            yield return null;
+        }
+        
+        yield return timeToReact;
+        ShootHitscanProjectile();
+
+        trackingLaser.enabled = false;
+
+        strafeBlocked = false;
+        OnAttackEnd();
+    }
+
+    private IEnumerator SlowshotAttackRoutine()
+    {
+        strafeBlocked = true;
+        if (moveInstance != null)
+            StopCoroutine(moveInstance);
+
+        if (!lookAtPlayer)
+            yield return RotateBarrelTowardsPlayerRoutine();
+        else lookAtPlayer = false;
+
+        yield return RotateBarrelDegrees(-slowshotAngle);
+        Instantiate(slowshotPrefab, projectileSpawn.transform.position, gun.transform.rotation, projectilesParent.transform);
+
+        yield return RotateBarrelDegrees(2 * slowshotAngle);
+        Instantiate(slowshotPrefab, projectileSpawn.transform.position, gun.transform.rotation, projectilesParent.transform);
+
+        strafeBlocked = false;
         OnAttackEnd();
     }
 

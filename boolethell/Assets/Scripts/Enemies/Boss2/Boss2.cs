@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss2 : Enemy
@@ -23,7 +22,7 @@ public class Boss2 : Enemy
 
     private void Awake()
     {
-        projectilesParent = Instantiate(new GameObject("Boss1 projectiles"));
+        projectilesParent = new GameObject("Boss2 projectiles");
         projectilesParent.transform.position = Vector3.zero;
     }
 
@@ -36,10 +35,9 @@ public class Boss2 : Enemy
     {
         switch (currentState)
         {
-            default:
             case EState.Idle:
-                RandomAttack();
                 currentState = EState.ExecutingAttack;
+                RandomAttack();
                 break;
             case EState.ExecutingAttack:
                 break;
@@ -48,35 +46,42 @@ public class Boss2 : Enemy
                 if (globalCooldownTimer >= globalCooldown)
                     currentState = EState.Idle;
                 break;
-
         }
+    }
+
+    private void OnAttackEnd()
+    {
+        globalCooldownTimer = 0f;
+        currentState = EState.OnCooldown;
     }
 
     private void RandomAttack()
     {
         var rand = new System.Random();
-        int r;
-        r = rand.Next(1);
+        int r = rand.Next(1);
 
         switch (r)
         {
             case 0:
-                StartCoroutine(SpawnLaserTurretRoutine());
+                SpawnLaserTurret();
                 break;
         }
     }
 
-    private IEnumerator SpawnLaserTurretRoutine()
+    private void SpawnLaserTurret()
     {
         RaycastHit2D hit;
         int numOfTries = 0;
         while (true)
         {
             if (numOfTries > 50)
-                yield return null;
+            {
+                OnAttackEnd();
+                return;
+            }
             numOfTries++;
 
-            Vector2 randomDir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            Vector2 randomDir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
             hit = Physics2D.Raycast(gameObject.transform.position, randomDir, 100f, laserTurretHitLayers);
             if (hit && !WillTurretsOverlap(hit.point))
                 break;
@@ -88,7 +93,6 @@ public class Boss2 : Enemy
         laserTurret.MovePosition(hit.point);
 
         OnAttackEnd();
-        yield return null;
     }
 
     private bool WillTurretsOverlap(Vector3 position)
@@ -96,18 +100,12 @@ public class Boss2 : Enemy
         bool overlap = false;
         foreach (GameObject go in laserTurrets)
         {
-            if (Vector3.Distance(position, go.transform.position) > laserTurretMinDistance)
+            if (Vector3.Distance(position, go.transform.position) < laserTurretMinDistance)
             {
                 overlap = true;
                 break;
             }
         }
         return overlap;
-    }
-
-    private void OnAttackEnd()
-    {
-        globalCooldownTimer = 0f;
-        currentState = EState.OnCooldown;
     }
 }

@@ -5,13 +5,22 @@ using UnityEngine.UI;
 
 public class UIPause : MonoBehaviour
 {
-    [SerializeField] private Button resume;
-    [SerializeField] private Button settings;
-    [SerializeField] private Button quit;
-
     public GameEvent onResume;
     public GameEvent onSettings;
     public GameEvent onQuit;
+
+    [SerializeField] private Button resume;
+    [SerializeField] private Button settings;
+    [SerializeField] private Button quit;
+    [SerializeField] private Button confirmYes;
+    [SerializeField] private Button confirmNo;
+
+    [SerializeField] private GameObject confirmation;
+
+    private void Awake()
+    {
+        confirmation.SetActive(false);
+    }
 
     private void Start()
     {
@@ -36,7 +45,18 @@ public class UIPause : MonoBehaviour
 
     public void OnQuitButtonPressed()
     {
+        confirmation.SetActive(true);
+        
+    }
+
+    public void OnConfirmationYesPressed()
+    {
         onQuit.Raise();
+    }
+
+    public void OnConfirmationNoPressed()
+    {
+        confirmation.SetActive(false);
     }
 
     private void InitializeButtons()
@@ -44,5 +64,7 @@ public class UIPause : MonoBehaviour
         resume.onClick.AddListener(() => { OnResumeButtonPressed(); });
         settings.onClick.AddListener(() => { OnSettingsButtonPressed(); });
         quit.onClick.AddListener(() => { OnQuitButtonPressed(); });
+        confirmYes.onClick.AddListener(() => { OnConfirmationYesPressed(); });
+        confirmNo.onClick.AddListener(() => { OnConfirmationNoPressed(); });
     }
 }

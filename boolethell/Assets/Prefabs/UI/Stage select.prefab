@@ -4588,7 +4588,7 @@ RectTransform:
   m_GameObject: {fileID: 3761132808316479794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8777771754045594562}
@@ -4626,7 +4626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a307833f8bf8eb14f94580c2270ffc49, type: 3}
+  m_Sprite: {fileID: -4186533502587462693, guid: f738c5701371af7428fb783ebbd3db7b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -8792,7 +8792,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 8487249333916686605}
   titleText: {fileID: 0}
   descriptionText: {fileID: 0}
-  iconSprite: {fileID: 21300000, guid: a307833f8bf8eb14f94580c2270ffc49, type: 3}
+  iconSprite: {fileID: 4291645877889280042, guid: 1243d95e5e412524ba4d32ac8c06fda5, type: 3}
   title: Lifestone
   description: More HP
 --- !u!1 &6932199397397692939
@@ -9027,7 +9027,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 32
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535

@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: ef4b31372b6f12247a66dd5ea3d8dc47
+guid: f738c5701371af7428fb783ebbd3db7b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6125417721769082936
-    second: pistol-gun_0
-  - first:
-      213: 3073623199162813062
-    second: pistol-gun_1
-  - first:
-      213: -1018391163085110010
-    second: pistol-gun_2
+      213: -4186533502587462693
+    second: heart2_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -43,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 2
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -52,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -104,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pistol-gun_0
+      name: heart2_0
       rect:
         serializedVersion: 2
-        x: 49
-        y: 327
-        width: 409
-        height: 71
+        x: 0
+        y: 0
+        width: 450
+        height: 417
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,50 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 830cdeec6fad10550800000000000000
-      internalID: 6125417721769082936
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pistol-gun_1
-      rect:
-        serializedVersion: 2
-        x: 466
-        y: 338
-        width: 21
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 68acf7fc304b7aa20800000000000000
-      internalID: 3073623199162813062
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pistol-gun_2
-      rect:
-        serializedVersion: 2
-        x: 27
-        y: 97
-        width: 432
-        height: 218
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6054ae102a2fdd1f0800000000000000
-      internalID: -1018391163085110010
+      spriteID: bdb900ae5f176e5c0800000000000000
+      internalID: -4186533502587462693
       vertices: []
       indices: 
       edges: []
@@ -169,7 +121,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -177,9 +129,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pistol-gun_0: 6125417721769082936
-      pistol-gun_1: 3073623199162813062
-      pistol-gun_2: -1018391163085110010
+      heart2_0: -4186533502587462693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
