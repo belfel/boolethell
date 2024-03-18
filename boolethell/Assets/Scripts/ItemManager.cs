@@ -7,6 +7,8 @@ public class ItemManager : MonoBehaviour
     [SerializeField] List<GameObject> pistolPrefabs;
     [SerializeField] List<GameObject> smgPrefabs;
     [SerializeField] List<GameObject> shotgunPrefabs;
+    [SerializeField] List<GameObject> revolverPrefabs;
+    [SerializeField] List<GameObject> flamethrowerPrefabs;
     [SerializeField] List<GameObject> lifestonePrefabs;
 
 
@@ -24,6 +26,12 @@ public class ItemManager : MonoBehaviour
                 break;
             case UnlockManager.EItem.shotgun:
                 prefab = shotgunPrefabs[(int)rarity - 1];
+                break;
+            case UnlockManager.EItem.revolver:
+                prefab = revolverPrefabs[(int)rarity - 1];
+                break;
+            case UnlockManager.EItem.flamethrower:
+                prefab = flamethrowerPrefabs[(int)rarity - 1];
                 break;
             case UnlockManager.EItem.lifestone:
                 prefab = lifestonePrefabs[(int)rarity - 1];

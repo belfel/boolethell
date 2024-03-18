@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5187559342572608917, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
+      propertyPath: damage
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5187559342572608917, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
+      propertyPath: maxAmmo
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: -5187559342572608917, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
+      propertyPath: reloadTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -5187559342572608917, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
+      propertyPath: attackSpeed
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: -5187559342572608917, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
+      propertyPath: projectileSpeed
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2984553985683131577, guid: 33e4a9f5d77684a4a912df31088e0ceb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.15

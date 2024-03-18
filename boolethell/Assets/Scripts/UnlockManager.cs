@@ -10,7 +10,7 @@ public class UnlockManager : MonoBehaviour
 
     public enum EItem
     {
-        pistol, smg, shotgun, lifestone
+        pistol, smg, shotgun, lifestone, revolver, flamethrower
     }
 
     // 0=not unlocked, 1=common, 2=uncommon, 3=rare, 4=legendary
@@ -20,8 +20,10 @@ public class UnlockManager : MonoBehaviour
     private void Start()
     {
         unlocks.Add(typeof(Pistol), 1);
-        unlocks.Add(typeof(Shotgun), 0);
-        unlocks.Add(typeof(SMG), 0);
+        unlocks.Add(typeof(Shotgun), 1);
+        unlocks.Add(typeof(SMG), 1);
+        unlocks.Add(typeof(Revolver), 1);
+        unlocks.Add(typeof(Flamethrower), 1);
         unlocks.Add(typeof(LifeStone), 1);
     }
 
@@ -72,6 +74,8 @@ public class UnlockManager : MonoBehaviour
         itemTypes.Add(EItem.pistol, typeof(Pistol));
         itemTypes.Add(EItem.smg, typeof(SMG));
         itemTypes.Add(EItem.shotgun, typeof(Shotgun));
+        itemTypes.Add(EItem.revolver, typeof(Revolver));
+        itemTypes.Add(EItem.flamethrower, typeof(Flamethrower));
         itemTypes.Add(EItem.lifestone, typeof(LifeStone));
     }
 

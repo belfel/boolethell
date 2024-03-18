@@ -16,7 +16,7 @@ public class Healthbar : MonoBehaviour
 
     private void Start()
     {
-        
+        Refresh();
     }
 
     private void Update()

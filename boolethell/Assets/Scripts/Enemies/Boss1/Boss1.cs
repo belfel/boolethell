@@ -13,13 +13,14 @@ public class Boss1 : Enemy
     [SerializeField] private GameObject airstrikeProjectilePrefab;
     [SerializeField] private GameObject airstrikeExplosionPrefab;
     [SerializeField] private GameObject slowshotPrefab;
-    [SerializeField] private GameObject hitscanPrefab;
-    [SerializeField] GameObject gun;
-    [SerializeField] GameObject projectileSpawn;
-
+    [SerializeField] private GameObject slowshotPhase2Prefab;
 
     [Header("General")]
+    [SerializeField] GameObject gun;
+    [SerializeField] GameObject projectileSpawn;
+    [SerializeField] GameObject laserSpawn;
     [SerializeField] private Vector3Variable playerPosition;
+    [SerializeField] private bool inPhase1 = true;
     [SerializeField] private bool inPhase2 = false;
     [SerializeField] private float globalCooldown = 2f;
     [SerializeField] private float globalCooldownTimer = 0f;
@@ -36,6 +37,8 @@ public class Boss1 : Enemy
     private GameObject projectilesParent;
     private Coroutine moveInstance;
     private int lastUsedAttack = -1;
+    private AudioSource audioSource;
+    private Animator animator;
 
     [Header("Scattershot variables")]
     [SerializeField] private Vector3[] scatterTargets;
@@ -43,6 +46,7 @@ public class Boss1 : Enemy
     [SerializeField] private int scatterProjectileCountPhase2 = 12;
 
     [Header("Machinegun variables")]
+    [SerializeField] private AudioClip mgFireSound;
     [SerializeField] private int mgBurstCount = 5;
     [SerializeField] private int mgBurstCountPhase2 = 8;
     [SerializeField] private int mgProjectilesPerBurst = 5;
@@ -64,31 +68,44 @@ public class Boss1 : Enemy
 
     [Header("Slowshot variables")]
     [SerializeField] private float slowshotAngle = 20f;
+    [SerializeField] private float slowshotAnglePhase2 = 10f;
 
     [Header("HitscanShot variables")]
+    [SerializeField] private GameObject flashEffect;
+    [SerializeField] private AudioClip hitscanFireSound;
     [SerializeField] private LineRenderer trackingLaser;
+    [SerializeField] private LineRenderer hitscanLaser;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float trackingTime = 4f;
     [SerializeField] private float trackingTimePhase2 = 3f;
     [SerializeField] private float timeToReact = 0.3f;
     [SerializeField] private float timeToReactPhase2 = 0.27f;
+    [SerializeField] private float hitscanDamage = 1f;
+    [SerializeField] private float laserInitialWidth = 1f;
+    [SerializeField] private float laserFadeSpeed = 4f;
 
     private enum EState
     {
-         Idle, OnCooldown, ExecutingAttack
+         Idle, OnCooldown, ExecutingAttack, PhaseTransition
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        hasHealthbar = false;
+        base.Awake();
         projectilesParent = new GameObject("Boss1 projectiles");
         projectilesParent.transform.position = Vector3.zero;
+
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+
+        //this.enabled = false;
     }
 
     private void Start()
     {
         EnemyStart();
+        animator.enabled = false;
         StartCoroutine(StrafeRoutine());
     }
 
@@ -110,6 +127,8 @@ public class Boss1 : Enemy
                 globalCooldownTimer += Time.deltaTime;
                 if (globalCooldownTimer >= globalCooldown)
                     currentState = EState.Idle;
+                break;
+            case EState.PhaseTransition:
                 break;
         }
     }
@@ -154,12 +173,19 @@ public class Boss1 : Enemy
     private void OnAttackEnd()
     {
         globalCooldownTimer = 0f;
-        currentState = EState.OnCooldown;
+        if (currentState == EState.PhaseTransition)
+            EnterPhase2();
+        else currentState = EState.OnCooldown;
     }
 
-    private void OnEnterPhase2()
+    private void EnterPhase2()
     {
+        StopAllCoroutines();
+        Invoke("OnPhaseTransitionEnd", 5f);
+
+        inPhase1 = false;
         inPhase2 = true;
+
         mgBurstCount = mgBurstCountPhase2;
         mgInterval = mgIntervalPhase2;
         mgProjectilesPerBurst = mgProjectilesPerBurstPhase2;
@@ -168,6 +194,14 @@ public class Boss1 : Enemy
         scatterProjectileCount = scatterProjectileCountPhase2;
         trackingTime = trackingTimePhase2;
         timeToReact = timeToReactPhase2;
+        slowshotPrefab = slowshotPhase2Prefab;
+        slowshotAngle = slowshotAnglePhase2;
+    }
+
+    private void OnPhaseTransitionEnd()
+    {
+        StartCoroutine(StrafeRoutine());
+        currentState = EState.Idle;
     }
 
     private void UpdatePlayerDirection()
@@ -273,6 +307,7 @@ public class Boss1 : Enemy
             
             for (int i=0; i<mgProjectilesPerBurst; i++)
             {
+                audioSource.PlayOneShot(mgFireSound);
                 float inacc = Random.Range(-1f, 1f) * inaccuracyMultiplier;
                 Quaternion shotRotation = gun.transform.rotation * Quaternion.Euler(0, 0, -mgBurstAngle / 2f + angleStep * i + inacc);
                 Instantiate(machinegunBurstProjectilePrefab, projectileSpawn.transform.position, shotRotation, projectilesParent.transform);
@@ -281,6 +316,7 @@ public class Boss1 : Enemy
 
         else
         {
+            audioSource.PlayOneShot(mgFireSound);
             float inacc = Random.Range(-1f, 1f) * inaccuracyMultiplier;
             Instantiate(machinegunProjectilePrefab, projectileSpawn.transform.position, gun.transform.rotation * Quaternion.Euler(0,0, inacc), projectilesParent.transform);
         }
@@ -429,30 +465,34 @@ public class Boss1 : Enemy
         if (!hit)
             return;
 
-        DrawRay(projectileSpawn.transform.position, hit.point);
+        DrawRay(laserSpawn.transform.position, hit.point);
     }
 
     private void DrawRay(Vector2 startPos, Vector2 endPos)
     {
         trackingLaser.SetPosition(0, startPos);
         trackingLaser.SetPosition(1, endPos);
+
+        hitscanLaser.SetPosition(0, startPos);
+        hitscanLaser.SetPosition(1, endPos);
     }
 
-    private void ShootHitscanProjectile()
+    private void ShootHitscan()
     {
-        Instantiate(hitscanPrefab, projectileSpawn.transform.position, gun.transform.transform.rotation, projectilesParent.transform);
+        audioSource.PlayOneShot(hitscanFireSound);
 
-        //RaycastHit2D hit = Physics2D.Raycast(projectileSpawn.transform.position, playerDirection, 100f, playerLayer);
-        //if (!hit)
-        //    return;
+        RaycastHit2D hit = Physics2D.Raycast(laserSpawn.transform.position, gun.transform.up, 100f, playerLayer);
+        if (!hit)
+            return;
 
-        //Player player = hit.transform.gameObject.GetComponent<Player>();
-        //player.OnHit
+        Player player = hit.transform.gameObject.GetComponent<Player>();
+        player.OnHit(hitscanDamage);
     }
 
     private IEnumerator HitscanAttackRoutine()
     {
         strafeBlocked = true;
+        isMoving = false;
         if (moveInstance != null)
             StopCoroutine(moveInstance);
 
@@ -467,19 +507,37 @@ public class Boss1 : Enemy
             trackingTimer += Time.deltaTime;
             yield return null;
         }
-        
-        yield return timeToReact;
-        ShootHitscanProjectile();
+
+        lookAtPlayer = false;
+        Instantiate(flashEffect, laserSpawn.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(timeToReact);
+        ShootHitscan();
 
         trackingLaser.enabled = false;
+        StartCoroutine(HitscanLaserRoutine());
 
         strafeBlocked = false;
         OnAttackEnd();
     }
 
+    private IEnumerator HitscanLaserRoutine()
+    {
+        hitscanLaser.enabled = true;
+        float width = laserInitialWidth;
+        while (width != 0f)
+        {
+            hitscanLaser.widthMultiplier = width;
+            width = Mathf.Max(width - Time.deltaTime * laserFadeSpeed, 0f);
+            yield return null;
+        }
+
+        hitscanLaser.enabled = false;
+    }
+
     private IEnumerator SlowshotAttackRoutine()
     {
         strafeBlocked = true;
+        isMoving = false;
         if (moveInstance != null)
             StopCoroutine(moveInstance);
 
@@ -499,8 +557,12 @@ public class Boss1 : Enemy
 
     public override void OnHit(float damage)
     {
+        if (currentState == EState.PhaseTransition)
+            damage *= 0.1f;
+
         base.OnHit(damage);
-        if (hpCurrent.Value <= hp.Value / 2)
-            OnEnterPhase2();
+
+        if (inPhase1 && hpCurrent.Value <= hp.Value / 2)
+            currentState = EState.PhaseTransition;
     }
 }

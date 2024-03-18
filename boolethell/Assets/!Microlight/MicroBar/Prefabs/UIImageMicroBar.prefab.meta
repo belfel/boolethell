@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 43123bbf73a6e1a4b9660dac49003e78
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 239154
+  packageName: MicroBar - Animated Health Bar
+  packageVersion: 1.0.0
+  assetPath: Assets/!Microlight/MicroBar/Prefabs/UIImageMicroBar.prefab
+  uploadId: 571747

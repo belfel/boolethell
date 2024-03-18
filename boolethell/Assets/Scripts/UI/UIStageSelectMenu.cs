@@ -130,7 +130,7 @@ public class UIStageSelectMenu : MonoBehaviour
         weaponIconImage.preserveAspect = true;
 
         // Set slot border color
-        weaponSSButton.SetBorderAndBackgroundColor(buttonSSButton.GetBorderColor());
+        weaponSSButton.SetColorAndText(buttonSSButton.GetBorderColor());
 
         // Set slot name and description
         weaponSSButton.SetTitleText(buttonSSButton.GetTitle());
@@ -176,7 +176,7 @@ public class UIStageSelectMenu : MonoBehaviour
         accessoryIconImage.preserveAspect = true;
 
         // Set slot border color
-        accessorySSButton.SetBorderAndBackgroundColor(buttonSSButton.GetBorderColor());
+        accessorySSButton.SetColorAndText(buttonSSButton.GetBorderColor());
 
         // Set slot name and description
         accessorySSButton.SetTitleText(buttonSSButton.GetTitle());
@@ -204,7 +204,7 @@ public class UIStageSelectMenu : MonoBehaviour
         StageSelectButton selectedSlot = GetLastUsedAccessoryButton().gameObject.GetComponent<StageSelectButton>();
         selectedSlot.SetTitleText("Select accessory");
         selectedSlot.SetDescriptionText("");
-        selectedSlot.SetBorderAndBackgroundColor(Color.white);
+        selectedSlot.SetColorAndText(Color.white);
         selectedSlot.GetIconImage().sprite = null;
         selectedSlot.GetIconImage().color = new Color(1f, 1f, 1f, 0f);
 
@@ -298,13 +298,15 @@ public class UIStageSelectMenu : MonoBehaviour
         foreach (StageSelectItem weapon in weapons)
         {
             Type type = weapon.GetItemType();
-            weapon.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(type)));
+            short rarity = UnlockManager.instance.GetRarity(type);
+            weapon.GetComponent<StageSelectButton>().SetColorAndText(UIManager.instance.GetRarityAsColor(rarity));
         }
 
         foreach (StageSelectItem accessory in accessories)
         {
             Type type = accessory.GetItemType();
-            accessory.GetComponent<StageSelectButton>().SetBorderAndBackgroundColor(UIManager.instance.GetRarityAsColor(UnlockManager.instance.GetRarity(type)));
+            short rarity = UnlockManager.instance.GetRarity(type);
+            accessory.GetComponent<StageSelectButton>().SetColorAndText(UIManager.instance.GetRarityAsColor(rarity));
         }
     }
 

@@ -28,10 +28,14 @@ public class StageSelectButton : MonoBehaviour
         return iconImage;
     }
 
-    public void SetBorderAndBackgroundColor(Color color)
+    public void SetColorAndText(Color color)
     {
         if (color == Color.black)
+        {
             iconImage.color = color;
+            titleText.color = color;
+            titleText.text = "Locked";
+        }
         else iconImage.color = Color.white;
 
         if (borderImage)

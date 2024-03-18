@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Microlight.MicroBar;
 
 public class Enemy : MonoBehaviour
 {
-    protected bool hasHealthbar = false;
-
     public FloatVariable hp;
     public FloatVariable hpCurrent;
     public UnityEvent onHit;
     public UnityEvent onDeath;
 
+    [SerializeField] private MicroBar healthbar;
+
+    protected virtual void Awake()
+    {
+        if (healthbar != null)
+            healthbar.Initialize(hp.Value);
+    }
 
     private void ResetHP()
     {
@@ -24,6 +30,8 @@ public class Enemy : MonoBehaviour
         hpCurrent.Value -= damage;
         if (onHit != null)
             onHit.Invoke();
+        if (healthbar != null)
+            healthbar.UpdateHealthBar(hpCurrent.Value);
 
         if (hpCurrent.Value <= 0)
         {

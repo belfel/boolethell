@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
 
     public StageSelectData stageSelectData;
 
+    public GameEvent gameplayPaused;
+    public GameEvent gameplayUnpaused;
+
     [Header("UI Prefabs")]
     [SerializeField] private GameObject mainMenuPrefab;
     private GameObject mainMenu;
@@ -53,12 +56,11 @@ public class UIManager : MonoBehaviour
     [Header("Sprites")]
     [SerializeField] private Sprite placeholderSprite;
     [SerializeField] private Sprite pistolSprite;
+    [SerializeField] private Sprite revolverSprite;
     [SerializeField] private Sprite smgSprite;
     [SerializeField] private Sprite shotgunSprite;
+    [SerializeField] private Sprite flamethrowerSprite;
     [SerializeField] private Sprite lifestoneSprite;
-
-    public GameEvent gameplayPaused;
-    public GameEvent gameplayUnpaused;
 
     private void Awake()
     {
@@ -85,6 +87,7 @@ public class UIManager : MonoBehaviour
             gameplayPaused.Raise();
         }
     }
+
     #region listener delegates
     public void OnMainMenuSettingsButtonPressed()
     {
@@ -329,6 +332,13 @@ public class UIManager : MonoBehaviour
         if (pistolSprite) itemTypeIconPairs.Add(typeof(Shotgun), shotgunSprite);
         else itemTypeIconPairs.Add(typeof(Shotgun), placeholderSprite);
 
+        if (pistolSprite) itemTypeIconPairs.Add(typeof(Revolver), revolverSprite);
+        else itemTypeIconPairs.Add(typeof(Revolver), placeholderSprite);
+
+        if (pistolSprite) itemTypeIconPairs.Add(typeof(Flamethrower), flamethrowerSprite);
+        else itemTypeIconPairs.Add(typeof(Flamethrower), placeholderSprite);
+
+
         if (pistolSprite) itemTypeIconPairs.Add(typeof(LifeStone), lifestoneSprite);
         else itemTypeIconPairs.Add(typeof(LifeStone), placeholderSprite);
     }
@@ -356,6 +366,10 @@ public class UIManager : MonoBehaviour
                 return "SMG";
             case UnlockManager.EItem.shotgun:
                 return "Shotgun";
+            case UnlockManager.EItem.revolver:
+                return "Revolver";
+            case UnlockManager.EItem.flamethrower:
+                return "Flamethrower";
             case UnlockManager.EItem.lifestone:
                 return "Lifestone";
             default:

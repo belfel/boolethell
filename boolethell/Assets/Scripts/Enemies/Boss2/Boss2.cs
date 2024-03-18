@@ -20,8 +20,9 @@ public class Boss2 : Enemy
         Idle, OnCooldown, ExecutingAttack
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         projectilesParent = new GameObject("Boss2 projectiles");
         projectilesParent.transform.position = Vector3.zero;
     }

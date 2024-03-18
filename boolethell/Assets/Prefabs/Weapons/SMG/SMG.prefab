@@ -99,15 +99,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onShoot: {fileID: 11400000, guid: f6e0ba75f028b8b49b43eed9b3e7efc8, type: 2}
   rarity: 1
-  maxAmmo: 1
-  attackSpeed: 1
-  reloadTime: 1
+  maxAmmo: 20
+  attackSpeed: 0.3
+  reloadTime: 4
   pierce: 0
   bounce: 0
   damage: 1
   projectileSpeed: 10
   projectileLifetime: 10
   projectilePrefab: {fileID: 3686553885732480299, guid: 334b244dca9bd684381d99041e3a2cb8, type: 3}
+  projectileSpawn: {fileID: 0}
   controlsDisabled: {fileID: 11400000, guid: f74b129e6c89bd642986af3573570935, type: 2}
   ammoText: {fileID: 11400000, guid: d4767a2522440a647ab209c6d5e866de, type: 2}
   ammoTextUpdated: {fileID: 11400000, guid: ecbfee88c6eab6d4a9de118c8bea4810, type: 2}
