@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -197,9 +199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8560333518945831255}
   damage: 0.5
-  speedMultiplier: 1.8
+  speedMultiplier: 1.6
   lifetime: 999
-  sizeOverTimeMultiplier: 1.14
+  sizeOverTimeMultiplier: 1.18
   ignoreCollisions: 0
   ignorePlayerWhenDashing: 1
   bounceOffWalls: 0
@@ -253,6 +255,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

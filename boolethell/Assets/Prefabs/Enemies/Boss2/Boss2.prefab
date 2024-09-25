@@ -32,7 +32,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 390877666734407459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &399107210753228069
@@ -52,6 +53,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -170,11 +173,52 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
-  laserTurretPrefab: {fileID: 3191639663832030555, guid: 4123ed3f70c05ac49805be7ed100c19b, type: 3}
+  healthbar: {fileID: 0}
+  actionController:
+    availableAttacks: 
+  atkTurret:
+    prefab: {fileID: 3191639663832030555, guid: 4123ed3f70c05ac49805be7ed100c19b, type: 3}
+    cooldown: 24
+    moveSpeed: 1
+    minDistance: 2
+    hitLayers:
+      serializedVersion: 2
+      m_Bits: 64
+  atkSpin:
+    projectilePrefab: {fileID: 3686553885732480299, guid: e121d04e3b0e69540a470734d7947abb, type: 3}
+    projectileCount: 60
+    duration: 3
+    cycleLength: 0.8
+  emitter: {fileID: 390877666734407459}
   globalCooldown: 2
-  laserTurretThrowSpeed: 1
-  laserTurretMinDistance: 2
-  laserTurretHitLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  currentState: 1
+--- !u!1 &5058047738935518534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 390877666734407459}
+  m_Layer: 0
+  m_Name: Emitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &390877666734407459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058047738935518534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6056957670478294547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

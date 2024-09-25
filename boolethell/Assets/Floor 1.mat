@@ -47,6 +47,7 @@ Material:
     - _BottomColor: {r: 0.15294118, g: 0.16689017, b: 0.18039216, a: 1}
     - _TopColor: {r: 0.21923336, g: 0.18431373, b: 0.25490198, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &7189898160246130731
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -59,4 +60,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 9
